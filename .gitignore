@@ -1,0 +1,7 @@
+bin/
+obj/
+.vs/
+appsettings.json
+appsettings.Development.json
+SpaceJamSimulator.csproj
+SpaceJamSimularo.csproj.user
