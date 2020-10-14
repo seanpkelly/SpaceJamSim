@@ -70,5 +70,24 @@ namespace SpaceJam2.Models
             }
             return playersList;
         }
+
+        public async Task<Players> GetSpecificPlayer(int id)
+        {
+            var client = GetClient();
+            //data from the API based off of a certain endpoint.
+            //taking in page number as a parameter.
+
+            var response = await client.GetAsync($"/api/v1/players/{id}");
+            string jasonData = await response.Content.ReadAsStringAsync();
+            JObject json = JObject.Parse(jasonData);
+         
+
+            Players newPlayers = new Players();
+            Players playersList = new Players();
+
+            newPlayers = JsonConvert.DeserializeObject<Players>(jasonData);
+
+            return newPlayers;
+        }
     }
 }
