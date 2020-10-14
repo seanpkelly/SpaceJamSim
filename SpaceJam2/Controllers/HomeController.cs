@@ -21,7 +21,8 @@ namespace SpaceJam2.Controllers
         {
             int ids = 200;
             Stats stats = await _spaceJamDAL.GetStats(ids);
-            return View();
+            Players players = await _spaceJamDAL.GetSpecificPlayer(237);
+            return View(players);
         }
         //public IActionResult Paginate()
         public async Task<IActionResult> PlayerList(int page, string search)
@@ -61,7 +62,58 @@ namespace SpaceJam2.Controllers
             playerStats.stats = getStats;
             return View(playerStats);
         }
+        #region Players CRUD
+        //public async IActionResult AddToToonSquad(int id)
+        //{
+        //    //string activeUserId = GetActiveUser();
 
+        //    Players p = await _spaceJamDAL.GetPlayers(id);
+
+        //    p.id = id;
+        //    p.first_name = "";
+        //    p.last_name = "";
+        //    p.position = "";
+        //    p.team = 
+
+
+        //    //remove game from history list if its added to favorites
+        //    DeleteHistory(id);
+        //    DeleteWishlist(id);
+
+        //    //check for dupes does not throw an error message or return to search results correctly yet
+        //    UserFavorite checkForDupes = _gameContext.UserFavorite.Where(f => f.UserId == activeUserId && f.GameId == id).FirstOrDefault();
+
+        //    if (checkForDupes == null)
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            _gameContext.UserFavorite.Add(f);
+        //            _gameContext.SaveChanges();
+        //        }
+
+        //        ////iterate favorite counter here///////////////////////////////////////////////////////
+
+        //        List<UserFavorite> favorite = _gameContext.UserFavorite.Where(f => f.GameId == id).ToList();
+        //        int count = favorite.Max(m => m.FavoriteCount) + 1;
+
+        //        foreach (var fav in favorite)
+        //        {
+        //            fav.FavoriteCount = count;
+        //            _gameContext.Entry(fav).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        //            _gameContext.Update(fav);
+        //            _gameContext.SaveChanges();
+        //        }
+
+        //        return RedirectToAction("DisplayFavorites");
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Error = "This game is already a favorite!";
+        //        return RedirectToAction("SearchResults");
+        //    }
+
+        //}
+        #endregion
         public IActionResult PlayerSearch()
         {
             return View();
