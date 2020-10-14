@@ -22,6 +22,9 @@ namespace SpaceJam2.Models
         public virtual DbSet<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUserTokens> AspNetUserTokens { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Monstars> Monstars { get; set; }
+        public virtual DbSet<PlayerStats> PlayerStats { get; set; }
+        public virtual DbSet<ToonSquad> ToonSquad { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -130,6 +133,56 @@ namespace SpaceJam2.Models
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
+            });
+
+            modelBuilder.Entity<Monstars>(entity =>
+            {
+                entity.Property(e => e.Bang).HasMaxLength(20);
+
+                entity.Property(e => e.Blanko).HasMaxLength(20);
+
+                entity.Property(e => e.Bupkus).HasMaxLength(20);
+
+                entity.Property(e => e.Nawt).HasMaxLength(20);
+
+                entity.Property(e => e.Pound).HasMaxLength(20);
+
+                entity.Property(e => e.UserId).HasMaxLength(450);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Monstars)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__Monstars__UserId__5FB337D6");
+            });
+
+            modelBuilder.Entity<PlayerStats>(entity =>
+            {
+                entity.HasKey(e => e.PlayerId)
+                    .HasName("PK__PlayerSt__4A4E74C8EE7839B0");
+
+                entity.Property(e => e.PlayerId).HasMaxLength(20);
+
+                entity.Property(e => e.PlayerName).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<ToonSquad>(entity =>
+            {
+                entity.Property(e => e.Player1).HasMaxLength(20);
+
+                entity.Property(e => e.Player2).HasMaxLength(20);
+
+                entity.Property(e => e.Player3).HasMaxLength(20);
+
+                entity.Property(e => e.Player4).HasMaxLength(20);
+
+                entity.Property(e => e.Player5).HasMaxLength(20);
+
+                entity.Property(e => e.UserId).HasMaxLength(450);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.ToonSquad)
+                    .HasForeignKey(d => d.UserId)
+                    .HasConstraintName("FK__ToonSquad__UserI__5CD6CB2B");
             });
 
             OnModelCreatingPartial(modelBuilder);

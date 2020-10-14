@@ -11,6 +11,8 @@ namespace SpaceJam2.Models
             AspNetUserLogins = new HashSet<AspNetUserLogins>();
             AspNetUserRoles = new HashSet<AspNetUserRoles>();
             AspNetUserTokens = new HashSet<AspNetUserTokens>();
+            Monstars = new HashSet<Monstars>();
+            ToonSquad = new HashSet<ToonSquad>();
         }
 
         public string Id { get; set; }
@@ -33,5 +35,7 @@ namespace SpaceJam2.Models
         public virtual ICollection<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual ICollection<AspNetUserRoles> AspNetUserRoles { get; set; }
         public virtual ICollection<AspNetUserTokens> AspNetUserTokens { get; set; }
+        public virtual ICollection<Monstars> Monstars { get; set; }
+        public virtual ICollection<ToonSquad> ToonSquad { get; set; }
     }
 }
