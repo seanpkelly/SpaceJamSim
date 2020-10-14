@@ -152,13 +152,13 @@ namespace SpaceJam2.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Monstars)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Monstars__UserId__5FB337D6");
+                    .HasConstraintName("FK__Monstars__UserId__5165187F");
             });
 
             modelBuilder.Entity<PlayerStats>(entity =>
             {
                 entity.HasKey(e => e.PlayerId)
-                    .HasName("PK__PlayerSt__4A4E74C8EE7839B0");
+                    .HasName("PK__PlayerSt__4A4E74C8737BA7C6");
 
                 entity.Property(e => e.PlayerId).HasMaxLength(20);
 
@@ -182,7 +182,7 @@ namespace SpaceJam2.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ToonSquad)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__ToonSquad__UserI__5CD6CB2B");
+                    .HasConstraintName("FK__ToonSquad__UserI__4E88ABD4");
             });
 
             OnModelCreatingPartial(modelBuilder);
