@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ namespace SpaceJam2.Controllers
     public class HomeController : Controller
     {
         private readonly SpaceJamDAL _spaceJamDAL;
+        private readonly SpaceJamContext _context;
         public HomeController()
         {
             _spaceJamDAL = new SpaceJamDAL();
@@ -23,6 +25,13 @@ namespace SpaceJam2.Controllers
             Stats stats = await _spaceJamDAL.GetStats(ids);
             Players players = await _spaceJamDAL.GetSpecificPlayer(237);
             return View(players);
+        }
+
+        public string GetActiveUser()
+        {
+            string activeUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            return activeUserId;
         }
         //public IActionResult Paginate()
         public async Task<IActionResult> PlayerList(int page, string search)
@@ -62,57 +71,81 @@ namespace SpaceJam2.Controllers
             playerStats.stats = getStats;
             return View(playerStats);
         }
+
         #region Players CRUD
-        //public async IActionResult AddToToonSquad(int id)
-        //{
-        //    //string activeUserId = GetActiveUser();
+        public async Task<IActionResult> AddToToonSquad(int id)
+        {
+            if (TempData["TeamNumber"] == null)
+            {
+                ToonSquad toonSquad = new ToonSquad();
+                _context.ToonSquad.Add(toonSquad);
+                _context.SaveChanges();
+                TempData["TeamNumber"] = 1;
+            }
+            string td = TempData["TeamNumber"].ToString();
+            int i = int.Parse(td);
+            string activeUserId = GetActiveUser();
 
-        //    Players p = await _spaceJamDAL.GetPlayers(id);
+            Players p = await _spaceJamDAL.GetSpecificPlayer(id);
 
-        //    p.id = id;
-        //    p.first_name = "";
-        //    p.last_name = "";
-        //    p.position = "";
-        //    p.team = 
+            Stats s = await _spaceJamDAL.GetStats(id);
 
+            PlayerStats ps = new PlayerStats();
 
-        //    //remove game from history list if its added to favorites
-        //    DeleteHistory(id);
-        //    DeleteWishlist(id);
+            ps.PlayerId = p.id.ToString();
+            ps.PlayerName = p.first_name + p.last_name.ToString();
+            ps.Points = s.pts;
+            ps.Assists = s.ast;
+            ps.Rebounds = s.oreb + s.dreb;
+            ps.Blocks = s.blk;
+            ps.Steals = s.stl;
+            List<ToonSquad> toonSquad3 = _context.ToonSquad.Where(t => t.Id == i).ToList();
+            
+            List<PlayerStats> checkForDupes = _context.PlayerStats.Where(c => c.PlayerId == ps.PlayerId).ToList();
+            //List<ToonSquad> toonsquad = _spaceJamDAL.UserSelection.Where(ps => ps.)
 
-        //    //check for dupes does not throw an error message or return to search results correctly yet
-        //    UserFavorite checkForDupes = _gameContext.UserFavorite.Where(f => f.UserId == activeUserId && f.GameId == id).FirstOrDefault();
+            if (checkForDupes == null)
+            {
+                if (ModelState.IsValid)
+                {
+                    _context.PlayerStats.Add(ps);
+                    _context.SaveChanges();
+                }
 
-        //    if (checkForDupes == null)
-        //    {
-        //        if (ModelState.IsValid)
-        //        {
-        //            _gameContext.UserFavorite.Add(f);
-        //            _gameContext.SaveChanges();
-        //        }
+                return RedirectToAction("DisplayTeam");
+            }
+            else
+            {
+                ViewBag.Error = "This player is already on the Toon Squad playa!";
+                return RedirectToAction();
+            }
+        }
 
-        //        ////iterate favorite counter here///////////////////////////////////////////////////////
+        public void AddPlayer(string id, ToonSquad toonsquad2)
+        {
 
-        //        List<UserFavorite> favorite = _gameContext.UserFavorite.Where(f => f.GameId == id).ToList();
-        //        int count = favorite.Max(m => m.FavoriteCount) + 1;
+            if (toonsquad2.Player1 == null)
+            {
+                toonsquad2.Player1 = id;
+            }
+            else if (toonsquad2.Player2 == null)
+            {
+                toonsquad2.Player2 = id;
+            }
+            else if (toonsquad2.Player3 == null)
+            {
+                toonsquad2.Player3 = id;
+            }
+            else if (toonsquad2.Player4 == null)
+            {
+                toonsquad2.Player4 = id;
+            }
+            else if (toonsquad2.Player5 == null)
+            {
+                toonsquad2.Player5 = id;
+            }
 
-        //        foreach (var fav in favorite)
-        //        {
-        //            fav.FavoriteCount = count;
-        //            _gameContext.Entry(fav).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-        //            _gameContext.Update(fav);
-        //            _gameContext.SaveChanges();
-        //        }
-
-        //        return RedirectToAction("DisplayFavorites");
-        //    }
-        //    else
-        //    {
-        //        ViewBag.Error = "This game is already a favorite!";
-        //        return RedirectToAction("SearchResults");
-        //    }
-
-        //}
+        }
         #endregion
         public IActionResult PlayerSearch()
         {
