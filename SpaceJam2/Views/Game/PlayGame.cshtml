@@ -1,0 +1,14 @@
+﻿@model List<double>
+
+@if (Model[0] > Model[1])
+{
+    <h1>You Win!</h1>
+}
+else if (Model[0] < Model[1])
+{
+    <h1>Oh No, You Lose!</h1>
+}
+else
+{
+    <h1>You are so evenly matched, you tied!</h1>
+}

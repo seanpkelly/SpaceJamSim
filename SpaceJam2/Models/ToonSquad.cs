@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SpaceJam2.Models
 {
-    public partial class ToonSquad
+    public partial class ToonSquad:AbstractTeam
     {
         public int Id { get; set; }
         public string UserId { get; set; }
