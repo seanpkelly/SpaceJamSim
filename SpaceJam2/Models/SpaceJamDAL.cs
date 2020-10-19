@@ -79,15 +79,19 @@ namespace SpaceJam2.Models
 
             var response = await client.GetAsync($"/api/v1/players/{id}");
             string jasonData = await response.Content.ReadAsStringAsync();
-            JObject json = JObject.Parse(jasonData);
-         
+            //JObject json = JObject.Parse(jasonData);
 
-            Players newPlayers = new Players();
-            Players playersList = new Players();
 
-            newPlayers = JsonConvert.DeserializeObject<Players>(jasonData);
+            //Players newPlayers = new Players();
+            //Players playersList = new Players();
 
+            //newPlayers = JsonConvert.DeserializeObject<Players>(jasonData);
+            Players newPlayers = JsonConvert.DeserializeObject<Players>(jasonData);
             return newPlayers;
         }
+        //    string jasonData = await response.Content.ReadAsStringAsync();
+        //    APIMovie movie = JsonConvert.DeserializeObject<APIMovie>(jasonData);
+        //        return movie;
+        //}
     }
 }

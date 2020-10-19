@@ -1,0 +1,34 @@
+﻿@model Dictionary<ToonSquad,List<PlayerStats>>
+
+@foreach(ToonSquad team in Model.Keys)
+{
+   int teamNumber = 1;
+    <h4>Team #: @teamNumber</h4>
+    <table class="table table-hover table-info" style="table-layout:fixed">
+        <tr>
+            <th>Player</th>
+            <th>Points Per Game</th>
+            <th>Assists Per Game</th>
+            <th>Rebounds Per Game</th>
+            <th>Blocks Per Game</th>
+            <th>Steals Per Game</th>
+        </tr>
+        @for(int i=0; i<Model[team].Count; i++)
+        {
+            <tr>
+                <td>@Model[team][i].PlayerName</td>
+                <td>@Model[team][i].Points</td>
+                <td>@Model[team][i].Assists</td>
+                <td>@Model[team][i].Rebounds</td>
+                <td>@Model[team][i].Blocks</td>
+                <td>@Model[team][i].Steals</td>
+            </tr>
+        }
+       
+    </table>
+    <a href="../Home/SetTeamNumber?teamNumber=@teamNumber">Select This team to add/remove players</a>
+     
+    teamNumber++;
+
+
+}

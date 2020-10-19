@@ -4,20 +4,24 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using SpaceJam2.Models;
 
 namespace SpaceJam2.Controllers
 {
-
+    
     public class HomeController : Controller
     {
         private readonly SpaceJamDAL _spaceJamDAL;
         private readonly SpaceJamContext _context;
-        public HomeController()
+        public HomeController(SpaceJamContext context)
         {
             _spaceJamDAL = new SpaceJamDAL();
+            _context = context;
+            
         }
         public async Task<IActionResult> Index()
         {
@@ -73,6 +77,7 @@ namespace SpaceJam2.Controllers
         }
 
         #region Players CRUD
+        [Authorize]
         public async Task<IActionResult> AddToToonSquad(int id)
         {
             if (TempData["TeamNumber"] == null)
@@ -83,7 +88,7 @@ namespace SpaceJam2.Controllers
                 TempData["TeamNumber"] = 1;
             }
             string td = TempData["TeamNumber"].ToString();
-            int i = int.Parse(td);
+            int teamNumber = int.Parse(td);
             string activeUserId = GetActiveUser();
 
             Players p = await _spaceJamDAL.GetSpecificPlayer(id);
@@ -99,12 +104,17 @@ namespace SpaceJam2.Controllers
             ps.Rebounds = s.oreb + s.dreb;
             ps.Blocks = s.blk;
             ps.Steals = s.stl;
-            List<ToonSquad> toonSquad3 = _context.ToonSquad.Where(t => t.Id == i).ToList();
-            
+            ToonSquad toonSquad3 = _context.ToonSquad.Find(teamNumber);
+            //List<ToonSquad> toonSquad3 = _context.ToonSquad.Where(t => t.Id == i).ToList();
+            toonSquad3.UserId = GetActiveUser();
+            _context.Entry(toonSquad3).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Update(toonSquad3);
+            _context.SaveChanges();
+
             List<PlayerStats> checkForDupes = _context.PlayerStats.Where(c => c.PlayerId == ps.PlayerId).ToList();
             //List<ToonSquad> toonsquad = _spaceJamDAL.UserSelection.Where(ps => ps.)
-
-            if (checkForDupes == null)
+            AddPlayer(id.ToString(),toonSquad3);
+            if (checkForDupes.Count==0)
             {
                 if (ModelState.IsValid)
                 {
@@ -112,12 +122,12 @@ namespace SpaceJam2.Controllers
                     _context.SaveChanges();
                 }
 
-                return RedirectToAction("DisplayTeam");
+                return RedirectToAction("ViewTeams");
             }
             else
             {
                 ViewBag.Error = "This player is already on the Toon Squad playa!";
-                return RedirectToAction();
+                return RedirectToAction("ViewTeams");
             }
         }
 
@@ -127,6 +137,13 @@ namespace SpaceJam2.Controllers
             if (toonsquad2.Player1 == null)
             {
                 toonsquad2.Player1 = id;
+
+                _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.Update(toonsquad2);
+                _context.SaveChanges();
+                //_supersdb.Entry(dbSuper).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                //_supersdb.Update(dbSuper);
+                //_supersdb.SaveChanges();
             }
             else if (toonsquad2.Player2 == null)
             {
@@ -151,14 +168,37 @@ namespace SpaceJam2.Controllers
         {
             return View();
         }
-        public IActionResult Privacy()
+
+        public IActionResult ViewTeams()
         {
-            return View();
+            string user = GetActiveUser();
+            Dictionary<ToonSquad, List<PlayerStats>> ToonSquadStats = new Dictionary<ToonSquad, List<PlayerStats>>();
+            List<ToonSquad> userTeams = _context.ToonSquad.Where(u => u.UserId == user).ToList();
+            for (int ut = 0; ut < userTeams.Count; ut++)
+            {
+                string[] playerids = { userTeams[ut].Player1, userTeams[ut].Player2, userTeams[ut].Player3, userTeams[ut].Player4, userTeams[ut].Player5 };
+                
+                List<PlayerStats> playerStats = GetPlayerStats(playerids);
+                ToonSquadStats.Add(userTeams[ut], playerStats);
+            }
+
+            return View(ToonSquadStats);
         }
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        public List<PlayerStats> GetPlayerStats(string[] playerIds)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            List<PlayerStats> playerStats = new List<PlayerStats>();
+            for (int id = 0; id < playerIds.Length &&playerIds[id]!=null; id++)
+            {
+                List<PlayerStats> getStats = _context.PlayerStats.Where(ps => ps.PlayerId == playerIds[id]).ToList();
+                playerStats.Add(getStats[0]);
+            }
+            return (playerStats);
+
+        }
+        public IActionResult SetTeamNumber(int teamNumber)
+        {
+            TempData["TeamNumber"] = teamNumber;
+          return  RedirectToAction("ViewTeams");
         }
     }
 }
