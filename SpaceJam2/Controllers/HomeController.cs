@@ -98,12 +98,17 @@ namespace SpaceJam2.Controllers
             PlayerStats ps = new PlayerStats();
 
             ps.PlayerId = p.id.ToString();
-            ps.PlayerName = p.first_name + p.last_name.ToString();
-            ps.Points = s.pts;
-            ps.Assists = s.ast;
-            ps.Rebounds = s.oreb + s.dreb;
-            ps.Blocks = s.blk;
-            ps.Steals = s.stl;
+            ps.PlayerName = p.first_name + " " + p.last_name.ToString();
+            //ps.Points = s.pts;
+            //ps.Assists = s.ast;
+            //ps.Rebounds = s.oreb + s.dreb;
+            //ps.Blocks = s.blk;
+            //ps.Steals = s.stl;
+            ps.Points = Math.Round(s.pts, 2);
+            ps.Assists = Math.Round(s.ast, 2);
+            ps.Rebounds = Math.Round(s.oreb + s.dreb, 2);
+            ps.Blocks = Math.Round(s.blk, 2);
+            ps.Steals = Math.Round(s.stl, 2);
             ToonSquad toonSquad3 = _context.ToonSquad.Find(teamNumber);
             //List<ToonSquad> toonSquad3 = _context.ToonSquad.Where(t => t.Id == i).ToList();
             toonSquad3.UserId = GetActiveUser();
@@ -130,7 +135,43 @@ namespace SpaceJam2.Controllers
                 return RedirectToAction("ViewTeams");
             }
         }
+        [Authorize]
+        public IActionResult RemovePlayer(string playerId)
+        {
+            string td = TempData["TeamNumber"].ToString();
+            int teamNumber = int.Parse(td);
+            ToonSquad toonSquad3 = _context.ToonSquad.Find(teamNumber);
 
+            if (playerId == toonSquad3.Player1)
+            {
+
+                toonSquad3.Player1 = null;
+
+            }
+            else if (playerId == toonSquad3.Player2)
+            {
+                toonSquad3.Player2 = null;
+
+            }
+            else if (playerId == toonSquad3.Player3)
+            {
+                toonSquad3.Player3 = null;
+            }
+            else if (playerId == toonSquad3.Player4)
+            {
+                toonSquad3.Player4 = null;
+            }
+            else if (playerId == toonSquad3.Player5)
+            {
+                toonSquad3.Player5 = null;
+            }
+
+            _context.Entry(toonSquad3).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            _context.Update(toonSquad3);
+            _context.SaveChanges();
+
+            return RedirectToAction("ViewTeams");
+        }
         public void AddPlayer(string id, ToonSquad toonsquad2)
         {
 
@@ -163,6 +204,8 @@ namespace SpaceJam2.Controllers
             }
 
         }
+
+
         #endregion
         public IActionResult PlayerSearch()
         {
@@ -187,8 +230,12 @@ namespace SpaceJam2.Controllers
         public List<PlayerStats> GetPlayerStats(string[] playerIds)
         {
             List<PlayerStats> playerStats = new List<PlayerStats>();
-            for (int id = 0; id < playerIds.Length &&playerIds[id]!=null; id++)
+            for (int id = 0; id < playerIds.Length; id++)
             {
+                if (playerIds[id] == null)
+                {
+                    continue;
+                }
                 List<PlayerStats> getStats = _context.PlayerStats.Where(ps => ps.PlayerId == playerIds[id]).ToList();
                 playerStats.Add(getStats[0]);
             }
