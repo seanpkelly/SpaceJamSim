@@ -80,12 +80,14 @@ namespace SpaceJam2.Controllers
         [Authorize]
         public async Task<IActionResult> AddToToonSquad(int id)
         {
-            if (TempData["TeamNumber"] == null)
+            string userId = GetActiveUser();
+            List<ToonSquad> allSquads = _context.ToonSquad.Where(u => u.UserId == userId).ToList();
+            if (allSquads.Count <1)
             {
                 ToonSquad toonSquad = new ToonSquad();
                 _context.ToonSquad.Add(toonSquad);
                 _context.SaveChanges();
-                TempData["TeamNumber"] = 1;
+                TempData["TeamNumber"] = toonSquad.Id;
             }
             string td = TempData["TeamNumber"].ToString();
             int teamNumber = int.Parse(td);
@@ -237,10 +239,28 @@ namespace SpaceJam2.Controllers
                     continue;
                 }
                 List<PlayerStats> getStats = _context.PlayerStats.Where(ps => ps.PlayerId == playerIds[id]).ToList();
+                if (getStats.Count > 0)
+                {
                 playerStats.Add(getStats[0]);
+                }
             }
             return (playerStats);
 
+        }
+
+        public IActionResult CreateNewTeam()
+        {
+            ToonSquad toonSquad = new ToonSquad();
+            toonSquad.UserId = GetActiveUser();
+            _context.ToonSquad.Add(toonSquad);
+            _context.SaveChanges();
+            List<ToonSquad> allSquads = _context.ToonSquad.ToList();
+            foreach(ToonSquad team in allSquads)
+            {
+                toonSquad = team;
+            }
+            TempData["TeamNumber"] = toonSquad.Id;
+            return RedirectToAction("ViewTeams");
         }
         public IActionResult SetTeamNumber(int teamNumber)
         {

@@ -23,8 +23,11 @@ namespace SpaceJam2.Controllers
 
         }
 
-        public IActionResult PlayGame(ToonSquad squad, Monstars monstars)
+        public IActionResult PlayGame(Monstars monstars)
         {
+            string id = TempData["TeamNumber"].ToString();
+            int teamid = int.Parse(id);
+            ToonSquad squad = _context.ToonSquad.Find(teamid);
             double squadStrength = GetSquadStrength(squad);
             double monastarStrength = GetMonstarsStrength(monstars);
             List<double> game = new List<double>() { squadStrength, monastarStrength };
