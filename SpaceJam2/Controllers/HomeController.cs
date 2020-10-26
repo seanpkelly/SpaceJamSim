@@ -121,6 +121,10 @@ namespace SpaceJam2.Controllers
             List<PlayerStats> checkForDupes = _context.PlayerStats.Where(c => c.PlayerId == ps.PlayerId).ToList();
             //List<ToonSquad> toonsquad = _spaceJamDAL.UserSelection.Where(ps => ps.)
             AddPlayer(id.ToString(), toonSquad3);
+            if (ViewBag.FullTeam == 1)
+            {
+                return RedirectToAction("FullTeam");
+            }
             if (checkForDupes.Count == 0)
             {
                 if (ModelState.IsValid)
@@ -191,20 +195,44 @@ namespace SpaceJam2.Controllers
             else if (toonsquad2.Player2 == null)
             {
                 toonsquad2.Player2 = id;
+                _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.Update(toonsquad2);
+                _context.SaveChanges();
             }
             else if (toonsquad2.Player3 == null)
             {
                 toonsquad2.Player3 = id;
+                _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.Update(toonsquad2);
+                _context.SaveChanges();
             }
             else if (toonsquad2.Player4 == null)
             {
                 toonsquad2.Player4 = id;
+                _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.Update(toonsquad2);
+                _context.SaveChanges();
             }
             else if (toonsquad2.Player5 == null)
             {
                 toonsquad2.Player5 = id;
+                _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                _context.Update(toonsquad2);
+                _context.SaveChanges();
+            }
+            else 
+            {
+                ViewBag.FullTeam = 1; 
+                //FullTeam();
+
             }
 
+        }
+
+        public IActionResult FullTeam()
+        {
+
+            return View();
         }
 
 
@@ -290,6 +318,49 @@ namespace SpaceJam2.Controllers
         {
             TempData["TeamNumber"] = teamNumber;
             return RedirectToAction("ViewTeams");
+        }
+
+        public IActionResult PopularPlayers(string sort)
+        {
+            ViewBag.Sort = sort;
+            List<PlayerStats> popularplayers = _context.PlayerStats.ToList();
+            List<PlayerStats> sortedplayers = PopularPlayerSort(popularplayers);
+            return View(sortedplayers);
+        }
+
+        public List<PlayerStats> PopularPlayerSort(List<PlayerStats> popularplayers)
+        {
+            List<PlayerStats> sortedplayers = new List<PlayerStats>();
+            if (ViewBag.Sort == null)
+            {
+                ViewBag.Sort = "Name";
+            }
+            if (ViewBag.Sort == "Name")
+            {
+               sortedplayers = popularplayers.OrderBy(p => p.PlayerName).ToList();
+            }
+            else if (ViewBag.Sort == "Points")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Points).ToList();
+            }
+            else if (ViewBag.Sort == "Assists")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Assists).ToList();
+            }
+            else if (ViewBag.Sort == "Rebounds")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Rebounds).ToList();
+            }
+            else if (ViewBag.Sort == "Blocks")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Blocks).ToList();
+            }
+            else if (ViewBag.Sort == "Steals")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Steals).ToList();
+            }
+
+            return sortedplayers;
         }
     }
 }

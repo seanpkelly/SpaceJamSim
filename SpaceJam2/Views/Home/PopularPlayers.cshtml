@@ -1,0 +1,25 @@
+﻿@model List<PlayerStats>
+
+<table class="table table-hover table-info" style="table-layout:fixed">
+    <tr>
+        <th><a href="../Home/PopularPlayers?sort=Name">Player Name</a></th>
+        <th><a href="../Home/PopularPlayers?sort=Points">Points</a></th>
+        <th><a href="../Home/PopularPlayers?sort=Assists">Assists</a></th>
+        <th><a href="../Home/PopularPlayers?sort=Rebounds">Rebounds</a></th>
+        <th><a href="../Home/PopularPlayers?sort=Steals">Steals</a></th>
+        <th><a href="../Home/PopularPlayers?sort=Blocks">Blocks</a></th>
+
+    </tr>
+    @foreach (PlayerStats p in Model)
+    {
+        <tr>
+            <td>@p.PlayerName </td>
+            <td>@p.Points</td>
+            <td>@p.Assists</td>
+            <td>@p.Rebounds</td>
+            <td>@p.Steals</td>
+            <td>@p.Blocks</td>
+            <td><a href="../Home/AddToToonSquad?id=@p.PlayerId"> Add To your Toon Squad!</a></td>
+        </tr>
+    }
+</table>

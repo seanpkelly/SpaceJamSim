@@ -10,8 +10,8 @@
             <th>Points Per Game</th>
             <th>Assists Per Game</th>
             <th>Rebounds Per Game</th>
-            <th>Blocks Per Game</th>
             <th>Steals Per Game</th>
+            <th>Blocks Per Game</th>
         </tr>
         @for (int i = 0; i < Model.TeamStats[team].Count; i++)
         {
@@ -35,8 +35,8 @@
                     <td>@Model.TeamStats[team][i].Points</td>
                     <td>@Model.TeamStats[team][i].Assists</td>
                     <td>@Model.TeamStats[team][i].Rebounds</td>
-                    <td>@Model.TeamStats[team][i].Blocks</td>
                     <td>@Model.TeamStats[team][i].Steals</td>
+                    <td>@Model.TeamStats[team][i].Blocks</td>
 
                     if (Model.TeamNumber == team.Id.ToString())
                     {
