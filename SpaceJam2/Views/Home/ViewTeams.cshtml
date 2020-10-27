@@ -1,44 +1,64 @@
-﻿@model Dictionary<ToonSquad,List<PlayerStats>>
+﻿@model ViewTeamViewModel
+    <style>
+        body {
+            background-image: url('/Images/LooneyCircle.png');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>
 
-@foreach(ToonSquad team in Model.Keys)
+@foreach (ToonSquad team in Model.TeamStats.Keys)
 {
-   
-<h4>Team #: @team.Id</h4>
+
+    <h4>Team #: @team.Id</h4>
     <table class="table table-hover table-info" style="table-layout:fixed">
         <tr>
             <th>Player</th>
             <th>Points Per Game</th>
             <th>Assists Per Game</th>
             <th>Rebounds Per Game</th>
-            <th>Blocks Per Game</th>
             <th>Steals Per Game</th>
+            <th>Blocks Per Game</th>
         </tr>
-        @for(int i=0; i<Model[team].Count; i++)
+        @for (int i = 0; i < Model.TeamStats[team].Count; i++)
         {
             <tr>
-            @if (Model[team][i].PlayerName == null)
-            {
-             <td><a href="../Home/PlayerSearch">Add Player</a></td>   
-            }
-            else
-            {
+                @if (Model.TeamStats[team][i].PlayerId == "0")
+                {
+                    <td>
 
-                <td>@Model[team][i].PlayerName</td>
-                <td>@Model[team][i].Points</td>
-                <td>@Model[team][i].Assists</td>
-                <td>@Model[team][i].Rebounds</td>
-                <td>@Model[team][i].Blocks</td>
-                <td>@Model[team][i].Steals</td>
-                <td><a href="../Home/RemovePlayer?playerId=@Model[team][i].PlayerId">Click here to remove this player</a></td>
-            }
+                        <form class="search" action="../Home/PlayerList" method="post">
+                            <input type="text" placeholder="Search for Players..." name="search" required>
+                            <button style="height:47px;" type="submit">Search</button>
+                        </form>
+                    </td>
+                }
+                else
+                {
+                    var TeamNumber = TempData["TeamNumber"];
+                    TempData.Keep();
+
+                    <td>@Model.TeamStats[team][i].PlayerName</td>
+                    <td>@Model.TeamStats[team][i].Points</td>
+                    <td>@Model.TeamStats[team][i].Assists</td>
+                    <td>@Model.TeamStats[team][i].Rebounds</td>
+                    <td>@Model.TeamStats[team][i].Steals</td>
+                    <td>@Model.TeamStats[team][i].Blocks</td>
+
+                    if (Model.TeamNumber == team.Id.ToString())
+                    {
+                        <td><a href="../Home/RemovePlayer?playerId=@Model.TeamStats[team][i].PlayerId">Click here to remove this player</a></td>
+                    }
+                }
             </tr>
         }
-       
+
     </table>
     <a href="../Home/SetTeamNumber?teamNumber=@team.Id">Select This team to add/remove players</a>
     <a href="../Monstar/GenerateMonstars" class="badge-success">Play Game!</a>
-     <a href="../Home/CreateNewTeam">Create New Team</a>
- 
+    <a href="../Home/CreateNewTeam">Create New Team</a>
+
 
 
 }

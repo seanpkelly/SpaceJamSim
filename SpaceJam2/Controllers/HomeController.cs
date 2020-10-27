@@ -12,7 +12,7 @@ using SpaceJam2.Models;
 
 namespace SpaceJam2.Controllers
 {
-    
+
     public class HomeController : Controller
     {
         private readonly SpaceJamDAL _spaceJamDAL;
@@ -21,7 +21,7 @@ namespace SpaceJam2.Controllers
         {
             _spaceJamDAL = new SpaceJamDAL();
             _context = context;
-            
+
         }
         public async Task<IActionResult> Index()
         {
@@ -82,7 +82,7 @@ namespace SpaceJam2.Controllers
         {
             string userId = GetActiveUser();
             List<ToonSquad> allSquads = _context.ToonSquad.Where(u => u.UserId == userId).ToList();
-            if (allSquads.Count <1)
+            if (allSquads.Count < 1)
             {
                 ToonSquad toonSquad = new ToonSquad();
                 _context.ToonSquad.Add(toonSquad);
@@ -120,8 +120,16 @@ namespace SpaceJam2.Controllers
 
             List<PlayerStats> checkForDupes = _context.PlayerStats.Where(c => c.PlayerId == ps.PlayerId).ToList();
             //List<ToonSquad> toonsquad = _spaceJamDAL.UserSelection.Where(ps => ps.)
-            AddPlayer(id.ToString(),toonSquad3);
-            if (checkForDupes.Count==0)
+            AddPlayer(id.ToString(), toonSquad3);
+            if (ViewBag.SamePlayer == 1)
+            {
+                return RedirectToAction("SamePlayer");
+            }
+            if (ViewBag.FullTeam == 1)
+            {
+                return RedirectToAction("FullTeam");
+            }
+            if (checkForDupes.Count == 0)
             {
                 if (ModelState.IsValid)
                 {
@@ -176,35 +184,83 @@ namespace SpaceJam2.Controllers
         }
         public void AddPlayer(string id, ToonSquad toonsquad2)
         {
+            bool checkForSamePlayer = CheckForSamePlayer(id, toonsquad2);
+            if (checkForSamePlayer == true)
+            {
 
-            if (toonsquad2.Player1 == null)
-            {
-                toonsquad2.Player1 = id;
+                if (toonsquad2.Player1 == null)
+                {
+                    toonsquad2.Player1 = id;
 
-                _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                _context.Update(toonsquad2);
-                _context.SaveChanges();
-                //_supersdb.Entry(dbSuper).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-                //_supersdb.Update(dbSuper);
-                //_supersdb.SaveChanges();
-            }
-            else if (toonsquad2.Player2 == null)
-            {
-                toonsquad2.Player2 = id;
-            }
-            else if (toonsquad2.Player3 == null)
-            {
-                toonsquad2.Player3 = id;
-            }
-            else if (toonsquad2.Player4 == null)
-            {
-                toonsquad2.Player4 = id;
-            }
-            else if (toonsquad2.Player5 == null)
-            {
-                toonsquad2.Player5 = id;
-            }
 
+                    _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.Update(toonsquad2);
+                    _context.SaveChanges();
+                    //_supersdb.Entry(dbSuper).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    //_supersdb.Update(dbSuper);
+                    //_supersdb.SaveChanges();
+                }
+                else if (toonsquad2.Player2 == null)
+                {
+                    toonsquad2.Player2 = id;
+                    _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.Update(toonsquad2);
+                    _context.SaveChanges();
+                }
+                else if (toonsquad2.Player3 == null)
+                {
+                    toonsquad2.Player3 = id;
+                    _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.Update(toonsquad2);
+                    _context.SaveChanges();
+                }
+                else if (toonsquad2.Player4 == null)
+                {
+                    toonsquad2.Player4 = id;
+                    _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.Update(toonsquad2);
+                    _context.SaveChanges();
+                }
+                else if (toonsquad2.Player5 == null)
+                {
+                    toonsquad2.Player5 = id;
+                    _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+                    _context.Update(toonsquad2);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    ViewBag.FullTeam = 1;
+                    //FullTeam();
+
+                }
+            }
+            else
+            {
+                ViewBag.SamePlayer = 1;
+            }
+          
+        }
+
+        public bool CheckForSamePlayer(string id, ToonSquad toonSquad)
+        {
+            if (toonSquad.Player1 != id && toonSquad.Player2 != id && toonSquad.Player3 != id && toonSquad.Player4 != id && toonSquad.Player5 != id)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public IActionResult FullTeam()
+        {
+
+            return View();
+        }
+        public IActionResult SamePlayer()
+        {
+            return View();
         }
 
 
@@ -222,12 +278,21 @@ namespace SpaceJam2.Controllers
             for (int ut = 0; ut < userTeams.Count; ut++)
             {
                 string[] playerids = { userTeams[ut].Player1, userTeams[ut].Player2, userTeams[ut].Player3, userTeams[ut].Player4, userTeams[ut].Player5 };
-                
+
                 List<PlayerStats> playerStats = GetPlayerStats(playerids);
                 ToonSquadStats.Add(userTeams[ut], playerStats);
             }
+            if (TempData["TeamNumber"] == null)
+            {
+                TempData["TeamNumber"] = userTeams[0].Id.ToString();
+            }
 
-            return View(ToonSquadStats);
+            ViewTeamViewModel viewTeamViewModel2 = new ViewTeamViewModel();
+            viewTeamViewModel2.TeamStats = ToonSquadStats;
+            viewTeamViewModel2.TeamNumber = TempData["TeamNumber"].ToString();
+            TempData.Keep();
+
+            return View(viewTeamViewModel2);
         }
         public List<PlayerStats> GetPlayerStats(string[] playerIds)
         {
@@ -236,13 +301,28 @@ namespace SpaceJam2.Controllers
             {
                 if (playerIds[id] == null)
                 {
-                    continue;
+                    playerIds[id] = "0";
                 }
                 List<PlayerStats> getStats = _context.PlayerStats.Where(ps => ps.PlayerId == playerIds[id]).ToList();
-                if (getStats.Count > 0)
+
+                if (getStats.Count < 1)
                 {
-                playerStats.Add(getStats[0]);
+                    PlayerStats playerStats1 = new PlayerStats();
+
+                    playerStats1.PlayerId = "0";
+                    playerStats1.PlayerName = " ";
+                    playerStats1.Points = 0.0;
+                    playerStats1.Assists = 0.0;
+                    playerStats1.Rebounds = 0.0;
+                    playerStats1.Blocks = 0.0;
+                    playerStats1.Steals = 0.0;
+                    playerStats.Add(playerStats1);
                 }
+                else
+                {
+                    playerStats.Add(getStats[0]);
+                }
+
             }
             return (playerStats);
 
@@ -255,7 +335,7 @@ namespace SpaceJam2.Controllers
             _context.ToonSquad.Add(toonSquad);
             _context.SaveChanges();
             List<ToonSquad> allSquads = _context.ToonSquad.ToList();
-            foreach(ToonSquad team in allSquads)
+            foreach (ToonSquad team in allSquads)
             {
                 toonSquad = team;
             }
@@ -265,7 +345,50 @@ namespace SpaceJam2.Controllers
         public IActionResult SetTeamNumber(int teamNumber)
         {
             TempData["TeamNumber"] = teamNumber;
-          return  RedirectToAction("ViewTeams");
+            return RedirectToAction("ViewTeams");
+        }
+
+        public IActionResult PopularPlayers(string sort)
+        {
+            ViewBag.Sort = sort;
+            List<PlayerStats> popularplayers = _context.PlayerStats.ToList();
+            List<PlayerStats> sortedplayers = PopularPlayerSort(popularplayers);
+            return View(sortedplayers);
+        }
+
+        public List<PlayerStats> PopularPlayerSort(List<PlayerStats> popularplayers)
+        {
+            List<PlayerStats> sortedplayers = new List<PlayerStats>();
+            if (ViewBag.Sort == null)
+            {
+                ViewBag.Sort = "Name";
+            }
+            if (ViewBag.Sort == "Name")
+            {
+                sortedplayers = popularplayers.OrderBy(p => p.PlayerName).ToList();
+            }
+            else if (ViewBag.Sort == "Points")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Points).ToList();
+            }
+            else if (ViewBag.Sort == "Assists")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Assists).ToList();
+            }
+            else if (ViewBag.Sort == "Rebounds")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Rebounds).ToList();
+            }
+            else if (ViewBag.Sort == "Blocks")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Blocks).ToList();
+            }
+            else if (ViewBag.Sort == "Steals")
+            {
+                sortedplayers = popularplayers.OrderByDescending(p => p.Steals).ToList();
+            }
+
+            return sortedplayers;
         }
     }
 }
