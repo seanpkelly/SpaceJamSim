@@ -1,4 +1,12 @@
 ﻿@model ViewTeamViewModel
+    <style>
+        body {
+            background-image: url('/Images/LooneyCircle.png');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>
 
 @foreach (ToonSquad team in Model.TeamStats.Keys)
 {

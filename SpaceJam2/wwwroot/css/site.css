@@ -73,6 +73,19 @@ body {
     background-color: rebeccapurple;
 }
 .backgroundImage {
-    background-image: url("LooneyCircle");
-  
+    background-image: url('/Images/LooneyCircle.png');
+    height: 500px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover
+}
+@font-face {
+    font-family:ThatsFontFolks;
+    src:url(/Fonts/ThatsFontFolks.ttf);
+}
+div {
+    font-family: ThatsFontFolks;
+}
+.cursive {
+    font-family:ThatsFontFolks;
 }

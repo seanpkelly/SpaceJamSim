@@ -1,5 +1,14 @@
 ﻿@model List<double>
+    <style>
+        body {
+            background-image: url('/Images/LooneyCircle.png');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>
 
+<h1>That's all Folks!</h1>
 @if (Model[0] > Model[1])
 {
     <h1>You Win! @Model[0] - @Model[1]</h1>
