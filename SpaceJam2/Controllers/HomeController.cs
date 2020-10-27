@@ -121,10 +121,12 @@ namespace SpaceJam2.Controllers
             List<PlayerStats> checkForDupes = _context.PlayerStats.Where(c => c.PlayerId == ps.PlayerId).ToList();
             //List<ToonSquad> toonsquad = _spaceJamDAL.UserSelection.Where(ps => ps.)
             AddPlayer(id.ToString(), toonSquad3);
+
             if (ViewBag.SamePlayer == 1)
             {
                 return RedirectToAction("SamePlayer");
             }
+
             if (ViewBag.FullTeam == 1)
             {
                 return RedirectToAction("FullTeam");
@@ -187,7 +189,6 @@ namespace SpaceJam2.Controllers
             bool checkForSamePlayer = CheckForSamePlayer(id, toonsquad2);
             if (checkForSamePlayer == true)
             {
-
                 if (toonsquad2.Player1 == null)
                 {
                     toonsquad2.Player1 = id;
@@ -231,15 +232,14 @@ namespace SpaceJam2.Controllers
                 else
                 {
                     ViewBag.FullTeam = 1;
-                    //FullTeam();
-
                 }
             }
             else
             {
                 ViewBag.SamePlayer = 1;
+
             }
-          
+
         }
 
         public bool CheckForSamePlayer(string id, ToonSquad toonSquad)
@@ -255,13 +255,13 @@ namespace SpaceJam2.Controllers
         }
         public IActionResult FullTeam()
         {
-
             return View();
         }
         public IActionResult SamePlayer()
         {
             return View();
         }
+
 
 
         #endregion
@@ -286,6 +286,7 @@ namespace SpaceJam2.Controllers
             {
                 TempData["TeamNumber"] = userTeams[0].Id.ToString();
             }
+
 
             ViewTeamViewModel viewTeamViewModel2 = new ViewTeamViewModel();
             viewTeamViewModel2.TeamStats = ToonSquadStats;
@@ -322,7 +323,6 @@ namespace SpaceJam2.Controllers
                 {
                     playerStats.Add(getStats[0]);
                 }
-
             }
             return (playerStats);
 
