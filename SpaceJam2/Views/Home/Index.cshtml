@@ -1,25 +1,31 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<style>
-    body {
-        background-image: url('/Images/LooneyCircle.png');
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-        background-size: 100% 100%;
-    }
-</style>
-<html>
+
+@section head{
+    <style type="text/css">
+        body {
+           
+            background-image: url('/Images/LooneyCircle.png');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: 100% 100%;
+        }
+    </style>
+}
+
+@*<html>
 <head>
     <link href="~/CSS/site.css" rel="StyleSheet">
-</head>
+</head>*@
 <body class="background">
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-     
-            
-        
-        <p>to the space jammmmmmmmmmmmmmmmmmmmmmmmmmmmmmm!!!!!!!!</p>
+    <div class="text-center" >
+    
+        <h1 class="display-4" style="color: rebeccapurple;">Welcome</h1>
+
+
+        <p class="customfont, display-4" style="color: rebeccapurple;">to the space jammmmmmmmmmmmmmmmmmmmmmmmmmmmmmm!!!!!!!!</p>
+
     </div>
 </body>
-</html>
+@*</html>*@

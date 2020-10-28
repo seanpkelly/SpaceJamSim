@@ -1,5 +1,5 @@
 ﻿@model ViewTeamViewModel
-<<<<<<< HEAD
+
     <style>
         body {
             background-image: url('/Images/LooneyCircle.png');
@@ -8,8 +8,7 @@
             background-size: 100% 100%;
         }
     </style>
-=======
->>>>>>> d0e48efbfcb27728ff42b8cbb00a653ea10dcc01
+
 
 @foreach (ToonSquad team in Model.TeamStats.Keys)
 {
@@ -59,7 +58,12 @@
 
     </table>
     <a href="../Home/SetTeamNumber?teamNumber=@team.Id">Select This team to add/remove players</a>
-    <a href="../Monstar/GenerateMonstars" class="badge-success">Play Game!</a>
+    if (Model.TeamNumber == team.Id.ToString())
+    {
+
+    <a href="../Monstar/GenerateMonstars" type="button"class="btn btn-success btn-block">Play Game!</a>
+
+    }
     <a href="../Home/CreateNewTeam">Create New Team</a>
 
 
