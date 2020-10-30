@@ -1,14 +1,5 @@
 ﻿@model ViewTeamViewModel
 
-    <style>
-        body {
-            background-image: url('/Images/LooneyCircle.png');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;
-        }
-    </style>
-
 
     <style>
         body {
@@ -68,7 +59,12 @@
 
     </table>
     <a href="../Home/SetTeamNumber?teamNumber=@team.Id">Select This team to add/remove players</a>
-    <a href="../Monstar/GenerateMonstars" class="badge-success">Play Game!</a>
+    if (Model.TeamNumber == team.Id.ToString())
+    {
+
+    <a href="../Monstar/GenerateMonstars" type="button"class="btn btn-success btn-block">Play Game!</a>
+
+    }
     <a href="../Home/CreateNewTeam">Create New Team</a>
 
 
