@@ -1,6 +1,27 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+            .dropdown1 {
+                position: relative;
+                display: inline-block;
+            }
+
+            .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #f9f9f9;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                padding: 12px 16px;
+                z-index: 1;
+            }
+
+            .dropdown:hover .dropdown-content {
+                display: block;
+            }
+        </style>
+  
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SpaceJam2</title>
@@ -8,26 +29,32 @@
     <link rel="stylesheet" href="~/css/site.css" />
     @RenderSection("head", required: false)
 </head>
-<body style="background-color:rgb(20,20,20)">
+<body style="background-color:rgb(178, 0, 255)">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SpaceJam2</a>
+                <span class="navbar-brand">Space Jam Simulator</span>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
+                    <ul class="navbar-nav  flex-grow-1 navbar-dark">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="PlayerSearch">Players</a>
+                            <div class="dropdown">
+                            <span class="nav-link dropdown">Players</span>
+                            <div class="dropdown-content">
+                                <a class="nav-link btn-outline-danger" asp-area="" asp-controller="Home" asp-action="PlayerSearch">Search for Players</a>
+                                <a class="nav-link btn-outline-dark" asp-area="" asp-controller="Home" asp-action="PopularPlayers">Popular Players</a>
+                            </div>
+                            </div>
                         </li>
                         <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="ViewTeams">Teams</a>
+                        <a class="nav-link " asp-area="" asp-controller="Home" asp-action="ViewTeams">Teams</a>
                         </li>
                     </ul>
                 </div>

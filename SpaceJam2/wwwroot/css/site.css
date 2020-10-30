@@ -29,7 +29,7 @@ a:visited {
 }
 
 body, h1, h2, h3, h4, h5, h6 * {
-    color: white;
+    color: purple;
 }
 
 a.navbar-brand {
@@ -44,9 +44,9 @@ a {
 }
 
 .btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    color: white;
+    background-color:purple;
+    border-color: deeppink;
 }
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -54,6 +54,7 @@ a {
     background-color: #1b6ec2;
     border-color: #1861ac;
 }
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -204,5 +205,5 @@ body {*/
     /*background-position: center;*/ /* Center the image */
     /*background-repeat: no-repeat;*/ /* Do not repeat the image */
     /*background-size: cover*/
-}
+/*}*/
 

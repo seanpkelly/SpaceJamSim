@@ -121,18 +121,11 @@ namespace SpaceJam2.Controllers
             List<PlayerStats> checkForDupes = _context.PlayerStats.Where(c => c.PlayerId == ps.PlayerId).ToList();
             //List<ToonSquad> toonsquad = _spaceJamDAL.UserSelection.Where(ps => ps.)
             AddPlayer(id.ToString(), toonSquad3);
-<<<<<<< HEAD
 
-=======
->>>>>>> Jordan
             if (ViewBag.SamePlayer == 1)
             {
                 return RedirectToAction("SamePlayer");
             }
-<<<<<<< HEAD
-
-=======
->>>>>>> Jordan
             if (ViewBag.FullTeam == 1)
             {
                 return RedirectToAction("FullTeam");
@@ -195,19 +188,11 @@ namespace SpaceJam2.Controllers
             bool checkForSamePlayer = CheckForSamePlayer(id, toonsquad2);
             if (checkForSamePlayer == true)
             {
-<<<<<<< HEAD
-                if (toonsquad2.Player1 == null)
-                {
-                    toonsquad2.Player1 = id;
 
-=======
 
                 if (toonsquad2.Player1 == null)
                 {
                     toonsquad2.Player1 = id;
-
->>>>>>> Jordan
-
                     _context.Entry(toonsquad2).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                     _context.Update(toonsquad2);
                     _context.SaveChanges();
@@ -246,24 +231,12 @@ namespace SpaceJam2.Controllers
                 else
                 {
                     ViewBag.FullTeam = 1;
-<<<<<<< HEAD
-=======
-                    //FullTeam();
-
->>>>>>> Jordan
                 }
             }
             else
             {
                 ViewBag.SamePlayer = 1;
-<<<<<<< HEAD
-
             }
-
-=======
-            }
-          
->>>>>>> Jordan
         }
 
         public bool CheckForSamePlayer(string id, ToonSquad toonSquad)
@@ -285,11 +258,6 @@ namespace SpaceJam2.Controllers
         {
             return View();
         }
-<<<<<<< HEAD
-
-=======
->>>>>>> Jordan
-
 
         #endregion
         public IActionResult PlayerSearch()

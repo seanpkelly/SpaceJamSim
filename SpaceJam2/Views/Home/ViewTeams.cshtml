@@ -1,28 +1,29 @@
 ﻿@model ViewTeamViewModel
 
 
-    <style>
-        body {
-            background-image: url('/Images/LooneyCircle.png');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;
-        }
-    </style>
+<style>
+    body {
+        background-image: url('/Images/LooneyCircle.png');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
 
 
 @foreach (ToonSquad team in Model.TeamStats.Keys)
 {
 
-    <h4>Team #: @team.Id</h4>
-    <table class="table table-hover table-info" style="table-layout:fixed">
+    <h5>Team #: @team.Id</h5>
+  
+    <table class="table table-hover table-dark" style="table-layout:fixed">
         <tr>
-            <th>Player</th>
-            <th>Points Per Game</th>
-            <th>Assists Per Game</th>
-            <th>Rebounds Per Game</th>
-            <th>Steals Per Game</th>
-            <th>Blocks Per Game</th>
+            <th><h5>Player</h5></th>
+            <th><h5>Points Per Game</h5></th>
+            <th><h5>Assists Per Game</h5></th>
+            <th><h5>Rebounds Per Game</h5></th>
+            <th><h5>Steals Per Game</h5></th>
+            <th><h5>Blocks Per Game</h5></th>
         </tr>
         @for (int i = 0; i < Model.TeamStats[team].Count; i++)
         {
@@ -39,9 +40,6 @@
                 }
                 else
                 {
-                    var TeamNumber = TempData["TeamNumber"];
-                    TempData.Keep();
-
                     <td>@Model.TeamStats[team][i].PlayerName</td>
                     <td>@Model.TeamStats[team][i].Points</td>
                     <td>@Model.TeamStats[team][i].Assists</td>
@@ -51,9 +49,15 @@
 
                     if (Model.TeamNumber == team.Id.ToString())
                     {
-                        <td><a href="../Home/RemovePlayer?playerId=@Model.TeamStats[team][i].PlayerId">Click here to remove this player</a></td>
+                        <td>
+                            <form action="../Home/RemovePlayer?playerId=@Model.TeamStats[team][i].PlayerId" method="post">
+                                <button type="submit" class="block">Remove Player</button>
+                            </form>
+                        </td>
                     }
+                    @*<td><a type="button"class=""role="button"href="../Home/RemovePlayer?playerId=@Model.TeamStats[team][i].PlayerId">Click here to remove this player</a></td>*@
                 }
+                
             </tr>
         }
 
@@ -62,7 +66,7 @@
     if (Model.TeamNumber == team.Id.ToString())
     {
 
-    <a href="../Monstar/GenerateMonstars" type="button"class="btn btn-success btn-block">Play Game!</a>
+        <a href="../Monstar/GenerateMonstars" type="button" class="btn btn-success btn-block">Play Game!</a>
 
     }
     <a href="../Home/CreateNewTeam">Create New Team</a>
