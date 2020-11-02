@@ -1,24 +1,32 @@
 ﻿@model List<double>
-    <style>
-        body {
-            background-image: url('/Images/LooneyCircle.png');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;
-        }
-    </style>
+<style>
+    body {
+        background-image: url('/Images/LooneyCircle.png');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+<div class="text-center">
 
-<h1 class="cursive">That's all Folks!</h1>
 @if (Model[0] > Model[1])
 {
-    <h1>You Win! @Model[0] - @Model[1]</h1>
+    <h3>You Win! <br />@Model[0] - @Model[1]</h3>
 }
 else if (Model[0] < Model[1])
 {
-<h1>Oh No, You Lose! @Model[0] - @Model[1] </h1>
+    <h3>Oh No, You Lose! <br /> @Model[0] - @Model[1] </h3>
 }
 else
 {
-<h1>You are so evenly matched, you tied! @Model[0] - @Model[1]</h1>
+    <h3>You are so evenly matched, you tied! <br />@Model[0] - @Model[1]</h3>
 }
-<a href="/Home/ViewTeams">Click here to go back to teams</a>
+
+<h1>That's all Folks!<br /></h1>
+
+    <form action="/Home/ViewTeams" method="post">
+        <button type="submit" class="block">Click here to go back to Teams</button>
+    </form>
+
+</div>
+

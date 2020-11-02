@@ -37,6 +37,7 @@ namespace SpaceJam2.Controllers
         public double GetSquadStrength(ToonSquad team)
         {
             double totalStrength = 0;
+            
             string[] playerIds = { team.Player1, team.Player2, team.Player3, team.Player4, team.Player5 };
             foreach(string p in playerIds) //goes through all the player ids and gets their stats/strength based off those stats and adds them together
             {
@@ -50,7 +51,8 @@ namespace SpaceJam2.Controllers
                 double playerStrength = pointStrength + assistStrength + reboundStrength + blockStrength + stealStrength;
                 totalStrength += playerStrength;
             }
-            return totalStrength;
+                double roundedStrength = Math.Round(totalStrength);
+            return roundedStrength;
         }
 
         public double GetMonstarsStrength(Monstars team)
@@ -69,7 +71,8 @@ namespace SpaceJam2.Controllers
                 double playerStrength = pointStrength + assistStrength + reboundStrength + blockStrength + stealStrength;
                 totalStrength += playerStrength;
             }
-            return totalStrength;
+            double roundedStrength = Math.Round(totalStrength);
+            return roundedStrength;
         }
     }
 }

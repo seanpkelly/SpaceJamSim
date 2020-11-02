@@ -1,39 +1,53 @@
 ﻿
 @model PlayerStatViewModel
-    <style>
-        body {
-            background-image: url('/Images/LooneyCircle.png');
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-size: 100% 100%;
-        }
-    </style>
-<table class="table table-hover table-info" style="table-layout:fixed">
+<style>
+    body {
+        background-image: url('/Images/LooneyCircle.png');
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+    }
+</style>
+<table class="table table-hover table-primary" style="table-layout:fixed">
     <tr>
-        <td>Name</td>
-        <td>Points</td>
-        <td>Assists</td>
-        <td>Rebounds</td>
-        <td>Steals</td>
-        <td>Blocks</td>
+        <th><h5>Name</h5></th>
+        <th><h5>Points</h5></th>
+        <th><h5>Assists</h5></th>
+        <th><h5>Rebounds</h5></th>
+        <th><h5>Steals</h5></th>
+        <th><h5>Blocks</h5></th>
     </tr>
     @for (int i = 0; i < Model.players.Count; i++)
     {
-<tr>
-    <td>@Model.players[i].first_name @Model.players[i].last_name</td>
-    <td>@Model.stats[i].pts</td>
-    <td>@Model.stats[i].ast</td>
-    <td>@Model.stats[i].reb</td>
-    <td>@Model.stats[i].stl</td>
-    <td>@Model.stats[i].blk</td>
-    <td><a href="../Home/AddToToonSquad?id=@Model.players[i].id">Add To Toon Squad</a></td>
-    
-</tr>}
+        <tr>
+            <td>@Model.players[i].first_name @Model.players[i].last_name</td>
+            <td>@Model.stats[i].pts</td>
+            <td>@Model.stats[i].ast</td>
+            <td>@Model.stats[i].reb</td>
+            <td>@Model.stats[i].stl</td>
+            <td>@Model.stats[i].blk</td>
+
+            <td>
+                <form action="../Home/AddToToonSquad?id=@Model.players[i].id" method="post">
+                    <button type="submit" class="block">Add Player To Toon Squad</button>
+                </form>
+            </td>
+
+
+        </tr>
+    }
 </table>
 @*<a href="../Home/PlayerList?search=@ViewBag.NextPage">Next Page</a>*@
 @if (ViewBag.PreviousPage > 0)
 {
-<a class="align-text-sm-start" href="../Home/PlayerList?page=@ViewBag.PreviousPage&search=@ViewBag.Name">Previous Page: @ViewBag.PreviousPage</a>}
+        <form action="../Home/PlayerList?page=@ViewBag.PreviousPage&search=@ViewBag.Name" method="post">
+            <button type="submit" class="align-text-sm-start">Previous Page: @ViewBag.PreviousPage</button>
+        </form>
+}
+    @*<a class="align-text-sm-start" href="../Home/PlayerList?page=@ViewBag.PreviousPage&search=@ViewBag.Name">Previous Page: @ViewBag.PreviousPage</a>}*@
 <div class="text-right">
-    <a class="align-text-sm-start" href="../Home/PlayerList?page=@ViewBag.NextPage&search=@ViewBag.Name">Next Page: @ViewBag.NextPage</a>
+    <form action="../Home/PlayerList?page=@ViewBag.NextPage&search=@ViewBag.Name" method="post">
+        <button type="submit" class="align-text-sm-start">Next Page: @ViewBag.NextPage</button>
+    </form>
+    @*<a class="align-text-sm-start" href="../Home/PlayerList?page=@ViewBag.NextPage&search=@ViewBag.Name">Next Page: @ViewBag.NextPage</a>*@
 </div>

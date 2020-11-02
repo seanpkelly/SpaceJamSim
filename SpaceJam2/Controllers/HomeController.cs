@@ -89,6 +89,10 @@ namespace SpaceJam2.Controllers
                 _context.SaveChanges();
                 TempData["TeamNumber"] = toonSquad.Id;
             }
+            if (TempData["TeamNumber"] == null)
+            {
+                TempData["TeamNumber"] = allSquads[0].Id;
+            }
             string td = TempData["TeamNumber"].ToString();
             int teamNumber = int.Parse(td);
             string activeUserId = GetActiveUser();

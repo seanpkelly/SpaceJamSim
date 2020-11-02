@@ -10,7 +10,7 @@
             .dropdown-content {
                 display: none;
                 position: absolute;
-                background-color: #f9f9f9;
+                background-color: #00ff90;
                 min-width: 160px;
                 box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
                 padding: 12px 16px;
@@ -47,7 +47,7 @@
                         <li class="nav-item">
                             <div class="dropdown">
                             <span class="nav-link dropdown">Players</span>
-                            <div class="dropdown-content">
+                            <div class="dropdown-content" style="background-color:purple">
                                 <a class="nav-link btn-outline-danger" asp-area="" asp-controller="Home" asp-action="PlayerSearch">Search for Players</a>
                                 <a class="nav-link btn-outline-dark" asp-area="" asp-controller="Home" asp-action="PopularPlayers">Popular Players</a>
                             </div>
@@ -66,12 +66,6 @@
             @RenderBody()
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2020 - SpaceJam2 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

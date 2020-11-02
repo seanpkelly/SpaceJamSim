@@ -19,7 +19,15 @@ div {
 .navBarFont {
     font-size: 13px;
 }
-
+.table-primary {
+    background-color: purple;
+    color: white;
+    border: dotted;
+    border-color: orange;
+}
+.text-primary{
+    color: orange;
+}
 a:link {
     text-decoration: none;
 }
@@ -28,9 +36,23 @@ a:visited {
     text-decoration: none;
 }
 
-body, h1, h2, h3, h4, h5, h6 * {
-    color: purple;
+body, h4, h5, h6 * {
+    color: orange;
 }
+h1 {
+    color: purple;
+    font-size: 200px;
+}
+h2{
+    color: purple;
+    font-weight: bold;
+    text-decoration-line: underline;
+}
+h3 {
+    color: purple;
+    font-size: 50px
+}
+
 
 a.navbar-brand {
     white-space: normal;
