@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.UI.V3.Pages.Internal.Account.Manage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -340,6 +341,17 @@ namespace SpaceJam2.Controllers
             }
             TempData["TeamNumber"] = toonSquad.Id;
             return RedirectToAction("ViewTeams");
+        }
+        public IActionResult DeleteTeam(int id)
+        {
+            ToonSquad toonSquad = _context.ToonSquad.Find(id);
+            if(toonSquad != null)
+            {
+            _context.ToonSquad.Remove(toonSquad);
+            _context.SaveChanges();
+            }
+            return RedirectToAction("ViewTeams");
+           
         }
         public IActionResult SetTeamNumber(int teamNumber)
         {
