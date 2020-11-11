@@ -31,7 +31,11 @@ namespace SpaceJam2.Controllers
             Players players = await _spaceJamDAL.GetSpecificPlayer(237);
             return View(players);
         }
-
+        public IActionResult HowTo()
+        {
+            return View();
+        }
+        [Authorize]
         public string GetActiveUser()
         {
             string activeUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;

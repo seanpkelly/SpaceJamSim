@@ -45,16 +45,20 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <div class="dropdown">
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link " asp-area="" asp-controller="Home" asp-action="HowTo">How To</a>
+                        </li>
+                        <div class="dropdown">
                             <span class="nav-link dropdown">Players</span>
                             <div class="dropdown-content" style="background-color:purple">
                                 <a class="nav-link btn-outline-danger" asp-area="" asp-controller="Home" asp-action="PlayerSearch">Search for Players</a>
                                 <a class="nav-link btn-outline-dark" asp-area="" asp-controller="Home" asp-action="PopularPlayers">Popular Players</a>
                             </div>
-                            </div>
-                        </li>
+                        </div>
+                        <li>
                         <li class="nav-item">
-                        <a class="nav-link " asp-area="" asp-controller="Home" asp-action="ViewTeams">Teams</a>
+                            <a class="nav-link " asp-area="" asp-controller="Home" asp-action="ViewTeams">Teams</a>
                         </li>
                     </ul>
                 </div>

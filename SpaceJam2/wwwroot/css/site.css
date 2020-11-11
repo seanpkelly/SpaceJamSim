@@ -25,9 +25,9 @@ div {
     border: dotted;
     border-color: orange;
 }
-.text-primary{
+/*.text-primary{
     color: orange;
-}
+}*/
 a:link {
     text-decoration: none;
 }
@@ -36,7 +36,11 @@ a:visited {
     text-decoration: none;
 }
 
-body, h4, h5, h6 * {
+h4 {
+    color: purple;
+    font-size: 30px;
+}
+ h5, h6  {
     color: orange;
 }
 h1 {
@@ -50,7 +54,7 @@ h2{
 }
 h3 {
     color: purple;
-    font-size: 50px
+    font-size: 50px;
 }
 
 
@@ -134,106 +138,4 @@ body {
     width: 100px;
     height: 50px;
 }
-
-
-/*@font-face{
-    font-family: WhatTheFont;
-    src:url(../Fonts/ThatsFontFolks.ttf);
-}*/
-/*p{
-    font-family: WhatTheFont;
-}*/
-/*div{
-    font-family: WhatTheFont;
-}
-.navBarFont {
-    font-size: 13px;
-}
-
-a:link {
-    text-decoration: none;
-}
-body, h1, h2, h3, h4, h5, h6 *{
-    color: #ffd800;
-}
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}*/
-
-/* Provide sufficient contrast against white background */
-/*a {
-  color: #ffd800;
-}
-
-.btn-primary {
-  color: #ffd800;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #ffd800;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}*/
-
-/* Sticky footer styles
--------------------------------------------------- */
-/*html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}*/
-
-/* Sticky footer styles
--------------------------------------------------- */
-/*html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {*/
-  /* Margin bottom by footer height */
-  /*margin-bottom: 60px;
-}
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;*/ /* Vertically center the text there */
-/*}
-
-.background{
-    background-color: rebeccapurple;
-
-}
-.backgroundImage {
-    background-image: url('/Images/LooneyCircle.png');
-    height: 500px; /* You must set a specified height */
-    /*background-position: center;*/ /* Center the image */
-    /*background-repeat: no-repeat;*/ /* Do not repeat the image */
-    /*background-size: cover*/
-/*}*/
 

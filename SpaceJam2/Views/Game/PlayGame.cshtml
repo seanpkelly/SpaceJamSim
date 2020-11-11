@@ -9,20 +9,23 @@
 </style>
 <div class="text-center">
 
-@if (Model[0] > Model[1])
-{
-    <h3>You Win! <br />@Model[0] - @Model[1]</h3>
-}
-else if (Model[0] < Model[1])
-{
-    <h3>Oh No, You Lose! <br /> @Model[0] - @Model[1] </h3>
-}
-else
-{
-    <h3>You are so evenly matched, you tied! <br />@Model[0] - @Model[1]</h3>
-}
+    @if (Model[0] > Model[1])
+    {
+        <h3>You Win! <br />@Model[0] - @Model[1]</h3>
+        <iframe src="https://giphy.com/embed/l0ErHFbCK3zSGYYMM" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/spacejam-space-jam-movie-l0ErHFbCK3zSGYYMM"></a></p>
+    }
+    else if (Model[0] < Model[1])
+    {
+        <h3>Oh No, You Lose! <br /> @Model[0] - @Model[1] </h3>
+        <iframe src="https://giphy.com/embed/l2YWFyJJmUkrvDAxq" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/spacejam-space-jam-movie-l2YWFyJJmUkrvDAxq"></a></p>
+    }
+    else
+    {
+        <h3>You are so evenly matched, you tied! <br />@Model[0] - @Model[1]</h3>
+        <iframe src="https://giphy.com/embed/l0ErHiTz8HP3NiKwE" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/spacejam-space-jam-movie-l0ErHiTz8HP3NiKwE"></a></p>
+    }
 
-<h1>That's all Folks!<br /></h1>
+    <h1>That's all Folks!<br /></h1>
 
     <form action="/Home/ViewTeams" method="post">
         <button type="submit" class="block">Click here to go back to Teams</button>
