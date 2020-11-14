@@ -274,10 +274,20 @@ namespace SpaceJam2.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult ViewTeams()
         {
             string user = GetActiveUser();
             Dictionary<ToonSquad, List<PlayerStats>> ToonSquadStats = new Dictionary<ToonSquad, List<PlayerStats>>();
+            List<ToonSquad> allSquads = _context.ToonSquad.Where(u => u.UserId == user).ToList();
+            if (allSquads.Count < 1)
+            {
+                ToonSquad toonSquad = new ToonSquad();
+                toonSquad.UserId = user;
+                _context.ToonSquad.Add(toonSquad);
+                _context.SaveChanges();
+                TempData["TeamNumber"] = toonSquad.Id;
+            }
             List<ToonSquad> userTeams = _context.ToonSquad.Where(u => u.UserId == user).ToList();
             for (int ut = 0; ut < userTeams.Count; ut++)
             {

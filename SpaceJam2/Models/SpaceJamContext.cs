@@ -31,7 +31,7 @@ namespace SpaceJam2.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=SpaceJam;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=tcp:spacejamsim.database.windows.net,1433;Initial Catalog=SpaceJam;Persist Security Info=False;User ID=yllekpnaes@gmail.com@spacejamsim;Password=Mittenstate1!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -152,13 +152,13 @@ namespace SpaceJam2.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Monstars)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__Monstars__UserId__5165187F");
+                    .HasConstraintName("FK__Monstars__UserId__75A278F5");
             });
 
             modelBuilder.Entity<PlayerStats>(entity =>
             {
                 entity.HasKey(e => e.PlayerId)
-                    .HasName("PK__PlayerSt__4A4E74C8737BA7C6");
+                    .HasName("PK__PlayerSt__4A4E74C84F8F1041");
 
                 entity.Property(e => e.PlayerId).HasMaxLength(20);
 
@@ -182,7 +182,7 @@ namespace SpaceJam2.Models
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.ToonSquad)
                     .HasForeignKey(d => d.UserId)
-                    .HasConstraintName("FK__ToonSquad__UserI__4E88ABD4");
+                    .HasConstraintName("FK__ToonSquad__UserI__76969D2E");
             });
 
             OnModelCreatingPartial(modelBuilder);
